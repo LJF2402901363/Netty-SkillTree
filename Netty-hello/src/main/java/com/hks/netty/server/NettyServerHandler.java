@@ -2,6 +2,8 @@ package com.hks.netty.server;
 
 import java.net.InetAddress;
 import java.util.Date;
+
+import com.hks.netty.util.DateUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -22,13 +24,12 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<String> {
     protected void channelRead0(ChannelHandlerContext ctx, String msg)
             throws Exception {
         // 收到消息直接打印输出
-        System.out.println("服务端接受的消息 : " + msg);
         if("quit".equals(msg)){//服务端断开的条件
             ctx.close();
         }
-        Date date=new Date();
+        String dateToStr = DateUtil.dateToStr(new Date());
         // 返回客户端消息
-        ctx.writeAndFlush(date+"\n");
+        ctx.writeAndFlush(dateToStr+" 收到你的消息啦："+"\n");
     }
 
     /*
